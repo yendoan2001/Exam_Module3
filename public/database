@@ -1,0 +1,11 @@
+create database Module3_Exam;
+use Module3_Exam;
+create table Student(
+ID int auto_increment primary key,
+Name varchar(30) not null,
+Class varchar(50) not null,
+TheoryMark int not null,
+PracticeMark int not null,
+Evaluate varchar(10) not null,
+Describes varchar(100) not null
+);
