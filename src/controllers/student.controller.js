@@ -51,7 +51,17 @@ class StudentController extends BaseController {
         res.end();
     }
     async showFormUpdate(req,res){
-        let data = await _handle.getTemplate('./view/update.html')
+        let ID = url.parse(req.url, true).query.ID;
+        let getStudentSql = `select * from Student where ID = '${ID}'`;
+        let student = await this.querySQL(getStudentSql);
+
+        let data = await _handle.getTemplate('./view/update.html');
+        data = data.replace('{Name}', `<input type="text" class="form-control" name="nameUpdate" value="${student[0].Name}" placeholder="Update Student Name">`);
+        data = data.replace('{Class}', `<input type="text" class="form-control" name="classUpdate" value="${student[0].Class}" placeholder="Update Class">`);
+        data = data.replace('{Theory Mark}', `<input type="number" name ="theoryMarkUpdate" class="form-control" value="${student[0].TheoryMark}" placeholder="Update Theory Mark">`);
+        data = data.replace('{Practice Mark}', `<input type="number" name="practiceMarkUpdate" class="form-control" value="${student[0].PracticeMark}" placeholder="Update Practice Mark">`);
+        data = data.replace('{Evaluate}', `<input type="text" name="evaluateUpdate" class="form-control" value="${student[0].Evaluate}" placeholder="Update Evaluation">`);
+        data = data.replace('{Describes}', `<input type="text" name="descriptionUpdate" class="form-control" value="${student[0].Describes}" placeholder="Update Describes">`);
         res.writeHead(200, {'Content-Type': 'text/html'});
         res.write(data);
         res.end();
